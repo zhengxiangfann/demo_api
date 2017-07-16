@@ -75,43 +75,43 @@ func appendSn(firstPart string, sn uint32) string {
 }
 
 type Person struct {
-    Name    string
+	Name    string
 	Gender  string
 	Age     uint8
 	Address string
 }
 
 func (p *Person) Move(newaddr string) string {
-    oldaddr := p.Address
-    p.Address = newaddr
-    return oldaddr
+	oldaddr := p.Address
+	p.Address = newaddr
+	return oldaddr
 }
 
-func main() {
+// func main() {
 
-	// myconf := new(conf.Config)
-	// myconf.InitConfig("config.ini")
-	// fmt.Println(myconf.Read("default", "path"))
-	// fmt.Println(myconf.Mymap)
-	// fmt.Printf("Run Appliction!\r\n")
-	// fmt.Println("------------------------------------")
-	// stu()
-	// fmt.Println("------------------------------------")
-	// chanstu()
-	// fmt.Println("------------------------------------")
+// 	// myconf := new(conf.Config)
+// 	// myconf.InitConfig("config.ini")
+// 	// fmt.Println(myconf.Read("default", "path"))
+// 	// fmt.Println(myconf.Mymap)
+// 	// fmt.Printf("Run Appliction!\r\n")
+// 	// fmt.Println("------------------------------------")
+// 	// stu()
+// 	// fmt.Println("------------------------------------")
+// 	// chanstu()
+// 	// fmt.Println("------------------------------------")
 
-	//stuchan3()
+// 	//stuchan3()
 
-	// var result = func(a int) string { return strconv.Itoa(a) }(1)
-	// fmt.Println(result)
+// 	// var result = func(a int) string { return strconv.Itoa(a) }(1)
+// 	// fmt.Println(result)
 
-	var generator EmployeeIdGenerator
+// 	var generator EmployeeIdGenerator
 
-	generator = func(company string, department string, sn uint32) string {
+// 	generator = func(company string, department string, sn uint32) string {
 
-		return appendSn(company+"-"+department+"-", sn)
+// 		return appendSn(company+"-"+department+"-", sn)
 
-	}
-	fmt.Println(generateId(generator, "RD"))
+// 	}
+// 	fmt.Println(generateId(generator, "RD"))
 
-}
+// }
