@@ -66,7 +66,8 @@ func UpLoad(c *gin.Context) {
 
 	_, err := os.Stat(picbasepath)
 	if err != nil {
-		os.MkdirAll(picbasepath, 0777)
+		// os.MkdirAll(picbasepath, 0777)
+		os.MkdirAll(picbasepath, os.ModePerm)
 	}
 
 	createh, err3 := os.Create(picbasepath + "/" + file.Filename)
