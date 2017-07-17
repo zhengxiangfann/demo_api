@@ -15,7 +15,7 @@ import (
 
 var picbasepath string
 
-func main() {
+func main_dddddd() {
 
 	myconf := new(conf.Config)
 	myconf.InitConfig("config.ini")
