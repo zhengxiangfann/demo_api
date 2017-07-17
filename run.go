@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"sync/atomic"
 	"time"
@@ -123,7 +124,34 @@ func main() {
 	// demo4()
 	// demoo5()
 	// demo6()
-	demo7()
+	// demo7()
+
+	// nextInt := demo8()
+	// fmt.Println(nextInt())
+	// fmt.Println(nextInt())
+	// fmt.Println(nextInt())
+	// newInt := demo8()
+	// fmt.Println(newInt())
+
+	// i := 1
+	// fmt.Println("initial:", i)
+	// zeroval(i)
+	// fmt.Println("zeroval:", i)
+	// zeroptr(&i)
+	// fmt.Println("zeroptr", i)
+	// fmt.Println("zeroptr", &i)
+	// demo11()
+
+	// r := rect{width: 10, height: 5}
+	// fmt.Println("area:", r.area())
+	// fmt.Println("perim:", r.perim())
+
+	r := rect{width: 3, height: 4}
+
+	c := circle{radius: 5}
+	measure(r)
+	measure(c)
+
 }
 
 func demo() {
@@ -299,4 +327,95 @@ func demo7(nums ...int) {
 	}
 	fmt.Println(total)
 
+}
+
+func demo8() func() int {
+	i := 0
+	return func() int {
+		i++
+		return i
+	}
+}
+
+func fact(n int) int {
+	if n == 0 {
+		return 1
+	}
+	return n * fact(n-1)
+}
+
+func zeroval(ival int) {
+	ival = 0
+}
+
+func zeroptr(iptr *int) {
+	*iptr = 0
+}
+
+func demo11() {
+	type person struct {
+		name string
+		age  int
+	}
+
+	fmt.Println(person{"Bob", 20})
+	fmt.Println(person{name: "Alice", age: 30})
+	fmt.Println(person{name: "Fred"})
+	fmt.Println(&person{name: "Ann", age: 40})
+	fmt.Println(&person{name: "Ann", age: 40})
+
+	s := person{name: "Sean", age: 50}
+	fmt.Println(s.name)
+	sp := &s
+	fmt.Println(sp.age)
+	sp.age = 51
+	fmt.Println(sp.age)
+}
+
+// type rect struct {
+// 	width, height int
+// }
+
+// func (r *rect) area() int {
+// 	return r.width * r.height
+// }
+
+// func (r rect) perim() int {
+// 	return 2*r.width + 2*r.height
+// }
+
+type geomery interface {
+	area() float64
+	perim() float64
+}
+
+type rect struct {
+	width, height float64
+}
+
+type circle struct {
+	radius float64
+}
+
+func (r rect) area() float64 {
+	return r.width * r.height
+}
+
+func (r rect) perim() float64 {
+
+	return 2*r.width + 2*r.height
+}
+
+func (c circle) area() float64 {
+	return math.Pi * c.radius * c.radius
+}
+
+func (c circle) perim() float64 {
+	return 2 * math.Pi * c.radius
+}
+
+func measure(g geomery) {
+	fmt.Println(g)
+	fmt.Println(g.area())
+	fmt.Println(g.perim())
 }
