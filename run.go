@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math"
 	"strconv"
 	"sync/atomic"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func stu() {
@@ -117,42 +120,42 @@ func (p *Person) Move(newaddr string) string {
 
 // }
 
-func main() {
-	// demo1()
-	// demo2()
-	// demo3()
-	// demo4()
-	// demoo5()
-	// demo6()
-	// demo7()
+// func main() {
+// demo1()
+// demo2()
+// demo3()
+// demo4()
+// demoo5()
+// demo6()
+// demo7()
 
-	// nextInt := demo8()
-	// fmt.Println(nextInt())
-	// fmt.Println(nextInt())
-	// fmt.Println(nextInt())
-	// newInt := demo8()
-	// fmt.Println(newInt())
+// nextInt := demo8()
+// fmt.Println(nextInt())
+// fmt.Println(nextInt())
+// fmt.Println(nextInt())
+// newInt := demo8()
+// fmt.Println(newInt())
 
-	// i := 1
-	// fmt.Println("initial:", i)
-	// zeroval(i)
-	// fmt.Println("zeroval:", i)
-	// zeroptr(&i)
-	// fmt.Println("zeroptr", i)
-	// fmt.Println("zeroptr", &i)
-	// demo11()
+// i := 1
+// fmt.Println("initial:", i)
+// zeroval(i)
+// fmt.Println("zeroval:", i)
+// zeroptr(&i)
+// fmt.Println("zeroptr", i)
+// fmt.Println("zeroptr", &i)
+// demo11()
 
-	// r := rect{width: 10, height: 5}
-	// fmt.Println("area:", r.area())
-	// fmt.Println("perim:", r.perim())
+// r := rect{width: 10, height: 5}
+// fmt.Println("area:", r.area())
+// fmt.Println("perim:", r.perim())
 
-	r := rect{width: 3, height: 4}
+// 	r := rect{width: 3, height: 4}
 
-	c := circle{radius: 5}
-	measure(r)
-	measure(c)
+// 	c := circle{radius: 5}
+// 	measure(r)
+// 	measure(c)
 
-}
+// }
 
 func demo() {
 	fmt.Println("demo")
@@ -418,4 +421,47 @@ func measure(g geomery) {
 	fmt.Println(g)
 	fmt.Println(g.area())
 	fmt.Println(g.perim())
+}
+
+func main() {
+
+	router := gin.Default()
+	type Login struct {
+		User     string `form:"user" json:"user" binding:"required"`
+		Password string `form:"password" json:"password"`
+	}
+	router.POST("/postfrom", func(c *gin.Context) {
+		var json Login
+		res := c.BindJSON(&json)
+		if res == nil {
+			c.JSON(200, json)
+			return
+		}
+		c.String(200, "ffff")
+	})
+
+	router.GET("/long_async", func(c *gin.Context) {
+		// create copy to be used inside the goroutine
+		c_cp := c.Copy()
+		go func() {
+			// simulate a long task with time.Sleep(). 5 seconds
+			time.Sleep(5 * time.Second)
+
+			// note than you are using the copied context "c_cp", IMPORTANT
+			log.Println("Done! in path " + c_cp.Request.URL.Path)
+		}()
+		c.String(200, "async")
+	})
+
+	router.GET("/long_sync", func(c *gin.Context) {
+		// simulate a long task with time.Sleep(). 5 seconds
+		time.Sleep(5 * time.Second)
+
+		// since we are NOT using a goroutine, we do not have to copy the context
+		log.Println("Done! in path " + c.Request.URL.Path)
+		c.String(200, "sync")
+	})
+
+	router.Run(":9090")
+
 }
